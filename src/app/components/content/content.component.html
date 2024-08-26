@@ -1,0 +1,173 @@
+<app-header></app-header>
+
+<div class="p-5">
+  <section>
+    <h2>Search</h2>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon1">
+        <svg
+          style="width: 20px"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g
+            id="SVGRepo_tracerCarrier"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></g>
+          <g id="SVGRepo_iconCarrier">
+            <g clip-path="url(#clip0_15_152)">
+              <rect width="24" height="24" fill="white"></rect>
+              <circle
+                cx="10.5"
+                cy="10.5"
+                r="6.5"
+                stroke="#000000"
+                stroke-linejoin="round"
+              ></circle>
+              <path
+                d="M19.6464 20.3536C19.8417 20.5488 20.1583 20.5488 20.3536 20.3536C20.5488 20.1583 20.5488 19.8417 20.3536 19.6464L19.6464 20.3536ZM20.3536 19.6464L15.3536 14.6464L14.6464 15.3536L19.6464 20.3536L20.3536 19.6464Z"
+                fill="#000000"
+              ></path>
+            </g>
+            <defs>
+              <clipPath id="clip0_15_152">
+                <rect width="24" height="24" fill="white"></rect>
+              </clipPath>
+            </defs>
+          </g>
+        </svg>
+      </span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search"
+        aria-label="Search"
+        aria-describedby="basic-addon1"
+        [formControl]="serach"
+      />
+    </div>
+  </section>
+
+  <section>
+    <div class="d-flex gap-2">
+      <div class="catagory-container">
+        <div class="card category-card">
+          <h6>Categories</h6>
+          <div class="d-flex flex-column gap-2">
+            <div
+              *ngFor="let cat of categoryArray"
+              class="card flex-row gap-2 p-1 align-items-center"
+            >
+              <div class="d-flex justify-content-between w-100">
+                <div>
+                  <ng-container [ngTemplateOutlet]="downArrow"> </ng-container>
+                  <span>{{ cat }}</span>
+                </div>
+
+                <input type="checkbox" style="margin-right: 20px" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-container">
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="items-number"
+            >{{ filterData.length }} results found</span
+          >
+          <button class="sort-btn" (click)="openEnd(content)">Sort</button>
+        </div>
+        <div class="d-flex flex-wrap gap-4 justify-content-around">
+          <div
+            *ngFor="let product of filterData"
+            class="card justify-content-center"
+            style="width: 230px"
+          >
+            <img
+              [src]="product.display_img_url"
+              class="card-img-top product-image"
+              alt="product"
+            />
+            <hr class="m-0" />
+            <div
+              class="card-body justify-content-center d-flex flex-column align-items-center"
+            >
+              <p class="card-text">
+                <b>
+
+                  {{ product.name | titlecase }}
+                </b>
+              </p>
+              <span>{{ product.points }} Points</span>
+              <hr class="w-100" />
+              <small> Valid Until: {{  product.valid_until | date : 'dd-MM-yyyy' }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<app-footer></app-footer>
+
+<ng-template #content let-offcanvas>
+  <div class="slider">
+    <div class="d-flex justify-content-between">
+      <span><b>Filter By</b></span>
+      <span (click)="resetFilters()" class="reset-btn">Reset all</span>
+    </div>
+    <hr class="w-100" />
+
+    <div><b>Sort</b></div>
+
+    <div class="d-flex gap-2">
+      <input
+        type="radio"
+        class="btn-check"
+        name="btnradio"
+        id="btnradio1"
+        autocomplete="off"
+      />
+      <label (click)="sortItems('A-Z')" class="btn btn-outline-danger" for="btnradio1">A - Z</label>
+
+      <input
+        type="radio"
+        class="btn-check"
+        name="btnradio"
+        id="btnradio2"
+        autocomplete="off"
+      />
+      <label (click)="sortItems('Z-A')" class="btn btn-outline-danger" for="btnradio2">Z - A</label>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #downArrow>
+  <svg
+    class="dd-icon"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+    <g
+      id="SVGRepo_tracerCarrier"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    ></g>
+    <g id="SVGRepo_iconCarrier">
+      <path
+        d="M7 10L12 15L17 10"
+        stroke="#000000"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+    </g>
+  </svg>
+</ng-template>
